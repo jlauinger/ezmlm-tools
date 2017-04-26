@@ -1,0 +1,33 @@
+#!/bin/bash
+
+source jl-ezmlm.conf
+
+# get the host name to send mails to
+HOST="$(whoami).$(hostname)"
+
+# get the ezmlm list name
+LIST=$1
+shift
+
+# verify there is a list parameter
+if [ -z "$LIST" ]; then
+	echo "Missing mailing list. Aborting..."
+	exit 1
+fi
+
+# verify the list exists
+if [ ! -d "$EZMLM_ROOT/$LIST" ]; then
+	echo "Mailing list does not exist. Aborting..."
+	exit 1
+fi
+
+# loop over requested recipients
+while (( "$#" )); do
+	ADDR_ENC=$(echo $1 | tr "@" "=")
+
+	echo "Submitting subscription invite for $LIST to $1"
+	echo | mail -s "\"Invite for $1\"" $LIST-subscribe-$ADDR_ENC@$HOST
+	echo $1 >> "invites-$LIST.txt"
+
+	shift
+done

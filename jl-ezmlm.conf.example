@@ -1,0 +1,2 @@
+# configure your ezmlm list directory
+EZMLM_ROOT=~/ezmlm

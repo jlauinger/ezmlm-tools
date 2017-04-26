@@ -1,0 +1,25 @@
+#!/bin/bash
+
+source jl-ezmlm.conf
+
+# get the ezmlm list name
+LIST=$1
+
+# verify there is a list parameter
+if [ -z "$LIST" ]; then
+	echo "Missing mailing list. Aborting..."
+	exit 1
+fi
+
+# verify the list exists
+if [ ! -d "$EZMLM_ROOT/$LIST" ]; then
+	echo "Mailing list does not exist. Aborting..."
+	exit 1
+fi
+
+# fetch pending invitations (sent ones without actual subscribed ones)
+INVITES="$(cat "invites-$LIST.txt" 2>/dev/null)"
+SUBSCRIBED="$(ezmlm-list "$EZMLM_ROOT/$LIST" 2>/dev/null)"
+
+grep -v -f <(echo "$SUBSCRIBED" | sort) <(echo "$INVITES" | sort) | uniq
+
