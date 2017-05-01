@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source jl-ezmlm.conf
+source ~/.jl-ezmlm.conf
 
 # get the ezmlm list name
 LIST=$1
@@ -18,7 +18,7 @@ if [ ! -d "$EZMLM_ROOT/$LIST" ]; then
 fi
 
 # fetch pending invitations (sent ones without actual subscribed ones)
-INVITES="$(cat "invites-$LIST.txt" 2>/dev/null)"
+INVITES="$(cat "$EZMLM_PENDING_ROOT/invites-$LIST.txt" 2>/dev/null)"
 SUBSCRIBED="$(ezmlm-list "$EZMLM_ROOT/$LIST" 2>/dev/null)"
 
 grep -v -f <(echo "$SUBSCRIBED" | sort) <(echo "$INVITES" | sort) | uniq

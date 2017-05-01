@@ -1,5 +1,5 @@
 #!/bin/bash
 
-source jl-ezmlm.conf
+source ~/.jl-ezmlm.conf
 
 ls $EZMLM_ROOT

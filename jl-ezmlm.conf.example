@@ -1,2 +1,5 @@
 # configure your ezmlm list directory
 EZMLM_ROOT=~/ezmlm
+
+# configure a directory for storing pending invites
+EZMLM_PENDING_ROOT=~/.ezmlm-pending
